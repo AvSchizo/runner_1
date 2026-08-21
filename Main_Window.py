@@ -17,8 +17,7 @@ bird_surface = bird_surface.subsurface(bird_surface.get_bounding_rect())
 birdScale = 1/5
 bird_surface = pygame.transform.scale(bird_surface, (bird_surface.get_width()*birdScale, bird_surface.get_height()*birdScale))
 bird_surface = pygame.transform.flip(bird_surface, True, False)
-bird_bottom = bird_surface.get_rect(bottom = 350)[1]
-bird_pos_x = 800
+bird_rectangle = bird_surface.get_rect(bottomleft = (800, 350))
 
 player_surface = pygame.image.load('graphics/V-2.png').convert_alpha()
 player_surface = player_surface.subsurface(player_surface.get_bounding_rect())
@@ -35,10 +34,11 @@ while running:
 			exit()
 
 
-	if bird_pos_x < 0-bird_surface.get_width():
-		bird_pos_x = 800
+	if bird_rectangle.left < 0-bird_surface.get_width():
+		bird_rectangle.left = 800
+		print("bird teleported")
 	else:
-		bird_pos_x -= 4
+		bird_rectangle.left -= 4
 	
 
 	screen.blit(skySurface, (0, 0))
@@ -46,7 +46,7 @@ while running:
 
 	screen.blit(textSurface, (300, 50))
 
-	screen.blit(bird_surface, (bird_pos_x, bird_bottom))
+	screen.blit(bird_surface, bird_rectangle)
 	screen.blit(player_surface, player_rectangle)
 
 	pygame.display.update()
